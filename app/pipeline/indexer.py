@@ -1,22 +1,24 @@
 from rag.chunks.splitter import split
 from rag.corpus.reader import simple_reader
-from rag.embeddings.embedder import configure_embedding
 from rag.vectorstore.store import init_store, load_store
 
 
-def indexer():
-    configure_embedding()
+def build_index():
+
     docs = simple_reader()
     print(f"Loaded {len(docs)} docs")
+
     nodes = split(docs)
     print(f"Split into {len(nodes)} nodes")
+
     index = init_store(nodes)
     return index
 
 
-def load_indexer():
-    configure_embedding()
-    return load_store()
+def load_index():
+    print("Me ejecuto tambien")
+    index = load_store()
+    return index
 
 
 def query(index, question: str, top_k: int = 3):
