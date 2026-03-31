@@ -6,7 +6,7 @@ from rag.corpus.reader import simple_reader
 
 def split(docs: list[Document]) -> list[BaseNode]:
 
-    node_parser = SentenceSplitter(chunk_size=1024, chunk_overlap=24)
+    node_parser = SentenceSplitter(chunk_size=424, chunk_overlap=95)
 
     nodes = node_parser.get_nodes_from_documents(docs, show_progress=True)
 
