@@ -1,7 +1,7 @@
 import threading
 
 import streamlit as st
-from pipeline.indexer import query
+from pipeline.query import query
 from rag.corpus.watchdog import start_watcher  # importa tu watcher
 
 
@@ -34,12 +34,14 @@ def render_chat(index):
         st.session_state.messages.append({"role": "user", "content": prompt})
         with st.chat_message("user"):
             st.markdown(prompt)
-
         with st.chat_message("assistant"):
-            with st.spinner("Thinking..."):
-                response = query(st.session_state.index, prompt)
-            st.markdown(response)
-
+            response = query(st.session_state.index, prompt)
+            # Stream token a token
+            full_response = ""
+            placeholder = st.empty()
+            for token in response.response_gen:
+                full_response += token
+                placeholder.markdown(full_response)
         st.session_state.messages.append(
-            {"role": "assistant", "content": str(response)}
+            {"role": "assistant", "content": full_response}
         )
