@@ -1,5 +1,6 @@
 from constants import DOC_FOLDER_URL
 from llama_index.core import Document, SimpleDirectoryReader
+from llama_index.readers.file import PyMuPDFReader
 
 
 def reader(input_dir: str = DOC_FOLDER_URL, **kwargs) -> list[Document]:
@@ -11,4 +12,12 @@ def reader(input_dir: str = DOC_FOLDER_URL, **kwargs) -> list[Document]:
     Notes:
         kwargs are accepted as long as don't conflicts with LlamaIndex SimpleDirectoryIndex"""
     docs = SimpleDirectoryReader(input_dir, recursive=True, **kwargs)
+def dir_corpus_reader(input_dir=ROOT_URL, **kwargs) -> list[Document]:
+    docs = SimpleDirectoryReader(
+        input_dir,
+        recursive=False,
+        required_exts=[".pdf"],
+        file_extractor={".pdf": PyMuPDFReader()},
+        **kwargs,
+    )
     return docs.load_data(show_progress=True)

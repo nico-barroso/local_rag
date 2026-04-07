@@ -30,7 +30,9 @@ def init_store(nodes: list[BaseNode]) -> VectorStoreIndex:
     """
     vector_store = setup_store()
     storage_context = StorageContext.from_defaults(vector_store=vector_store)
-    return VectorStoreIndex(nodes, storage_context=storage_context, show_progress=True)
+    return VectorStoreIndex(
+        nodes, storage_context=storage_context, show_progress=True, num_workers=4
+    )
 
 
 def load_store() -> VectorStoreIndex:
