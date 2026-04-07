@@ -1,0 +1,158 @@
+[data-testid="stChatMessageAvatarUser"] {
+    display: none !important;
+}
+
+.document-img {
+    font-size: 24px;
+}
+
+/* ── Chat input ── */
+[data-testid="stChatInput"] {
+    margin-bottom: 80px;
+}
+
+[data-testid="stChatInput"] textarea {
+    max-height: 120px !important;
+    overflow-y: auto !important;
+    resize: none !important;
+}
+
+/* ── Caption fijo abajo ── */
+.st-key-caption {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 8px;
+    z-index: 999;
+}
+
+/* ── Bubble styles ── */
+.assistant-bubble {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: transparent;
+    margin-bottom: 16px;
+}
+
+.assistant-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: linear-gradient(
+        135deg,
+        #7b2d00,
+        #c8601a,
+        #e8a83e,
+        #f5d98b,
+        #fffaf0,
+        #e8a83e,
+        #c8601a,
+        #7b2d00
+    );
+    background-size: 400% 400%;
+    animation: avatar-blob 3s ease-in-out infinite;
+    filter: blur(0.5px);
+}
+
+.avatar-placeholder.stopped {
+    animation: none;
+    background: linear-gradient(135deg, #c8601a, #e8a83e, #f5d98b);
+    background-size: 100% 100%;
+    border-radius: 50%;
+    filter: blur(0px);
+}
+
+@keyframes avatar-blob {
+    0% {
+        background-position: 0% 50%;
+        border-radius: 60% 40% 35% 65% / 50% 60% 40% 50%;
+        transform: scale(1) rotate(0deg);
+        filter: blur(0.3px);
+    }
+    15% {
+        background-position: 20% 30%;
+        border-radius: 45% 55% 65% 35% / 55% 45% 40% 60%;
+        transform: scale(1.05) rotate(15deg);
+        filter: blur(0.5px);
+    }
+    30% {
+        background-position: 60% 10%;
+        border-radius: 35% 65% 45% 55% / 40% 50% 60% 50%;
+        transform: scale(0.95) rotate(30deg);
+        filter: blur(0.7px);
+    }
+    45% {
+        background-position: 80% 40%;
+        border-radius: 55% 45% 35% 65% / 60% 40% 55% 45%;
+        transform: scale(1.08) rotate(60deg);
+        filter: blur(0.4px);
+    }
+    60% {
+        background-position: 70% 70%;
+        border-radius: 40% 60% 60% 40% / 50% 55% 40% 50%;
+        transform: scale(0.92) rotate(90deg);
+        filter: blur(0.6px);
+    }
+    75% {
+        background-position: 40% 90%;
+        border-radius: 65% 35% 45% 55% / 45% 60% 40% 55%;
+        transform: scale(1.03) rotate(120deg);
+        filter: blur(0.5px);
+    }
+    100% {
+        background-position: 0% 50%;
+        border-radius: 60% 40% 35% 65% / 50% 60% 40% 50%;
+        transform: scale(1) rotate(150deg);
+        filter: blur(0.3px);
+    }
+}
+
+.assistant-content {
+    padding-top: 8px;
+    color: #ececec;
+    line-height: 1.6;
+    word-wrap: break-word;
+}
+
+.thinking {
+    opacity: 0.5;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0%,
+    100% {
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+.user-bubble {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+.user-content {
+    background-color: #3b3b38;
+    color: #ececec;
+    padding: 10px 16px;
+    border-radius: 18px;
+    max-width: 70%;
+    word-wrap: break-word;
+    line-height: 1.6;
+}
