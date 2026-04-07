@@ -1,6 +1,4 @@
-llama-index
-llama-index-vector-stores-chroma
-llama-index-embeddings-ollama
-llama-index-llms-ollama
-chromadb
-streamlit
+chromadb==1.5.6
+llama_index==0.14.20
+streamlit==1.56.0
+watchdog==6.0.0
