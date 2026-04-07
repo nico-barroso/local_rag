@@ -1,7 +1,7 @@
 import os
 
 import streamlit as st
-from constants import ROOT_URL
+from constants import DOC_FOLDER_URL
 from frontend.utils.utils import styles_file_opener
 
 DOC_STYLES = f"""
@@ -46,7 +46,7 @@ def doc_sidebar():
             return
 
         files = sorted(
-            os.scandir(ROOT_URL), key=lambda f: f.stat().st_mtime, reverse=True
+            os.scandir(DOC_FOLDER_URL), key=lambda f: f.stat().st_mtime, reverse=True
         )
 
         cards_html = '<div class="document-container">'
