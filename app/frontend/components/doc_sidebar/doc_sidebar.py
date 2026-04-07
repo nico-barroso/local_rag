@@ -1,16 +1,23 @@
 import os
 
 import streamlit as st
+from constants import ROOT_URL
 from frontend.utils.utils import styles_file_opener
+
+DOC_STYLES = f"""
+<style>
+{styles_file_opener(__file__)}
+</style>
+"""
 
 
 def doc_sidebar():
     """Generates a curated sidebar that contains the documents in the /docs root folder"""
-    st.markdown(
-        f"<style>{styles_file_opener(__file__)}</style>", unsafe_allow_html=True
-    )
+    st.markdown(DOC_STYLES, unsafe_allow_html=True)
+
     with st.sidebar:
         with st.container(key="uploader-container"):
+            st.header("Mis documentos")
             st.caption(
                 "Here you can upload your own documents. Remember that the model need to index each time you upload a document."
             )
@@ -20,16 +27,26 @@ def doc_sidebar():
                 accept_multiple_files=True,
                 key="uploader",
             )
-            st.header("Documentos activos")
+            st.subheader("Documentos activos")
 
         if uploaded:
+            if not os.path.exists("./docs"):
+                os.makedirs("./docs", exist_ok=True)
+
             for file in uploaded:
-                with open(f"./docs/{file.name}", "wb") as out:
-                    out.write(file.read())
-                st.success(f"{file.name} añadido")
+                try:
+                    with open(f"./docs/{file.name}", "wb") as out:
+                        out.write(file.read())
+                    st.success(f"{file.name} añadido")
+                except Exception as e:
+                    st.error(f"Error al guardar {file.name}: {str(e)}")
+
+        if not os.path.exists("./docs"):
+            st.html("")
+            return
 
         files = sorted(
-            os.scandir("./docs"), key=lambda f: f.stat().st_mtime, reverse=True
+            os.scandir(ROOT_URL), key=lambda f: f.stat().st_mtime, reverse=True
         )
 
         cards_html = '<div class="document-container">'
