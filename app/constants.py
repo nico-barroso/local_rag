@@ -1,5 +1,5 @@
 DOC_FOLDER_URL = "./docs"
-VECTOR_STORE_DICT = "./chroma_db"
+VECTOR_STORE_PATH = "./chroma_db"
 PROJECT_NAME = "kalima"
 THINKING_MESSAGES = [
     "Pensando...",

@@ -1,12 +1,12 @@
 import chromadb
-from constants import PROJECT_NAME, VECTOR_STORE_DICT
+from constants import PROJECT_NAME, VECTOR_STORE_PATH
 from llama_index.core import StorageContext, VectorStoreIndex
 from llama_index.core.schema import BaseNode
 from llama_index.vector_stores.chroma import ChromaVectorStore
 
 
 def setup_store(
-    path: str = VECTOR_STORE_DICT, collection_name: str = PROJECT_NAME
+    path: str = VECTOR_STORE_PATH, collection_name: str = PROJECT_NAME
 ) -> ChromaVectorStore:
     """It gets a chroma collection or creates a new one.
 
@@ -31,7 +31,9 @@ def init_store(nodes: list[BaseNode]) -> VectorStoreIndex:
     vector_store = setup_store()
     storage_context = StorageContext.from_defaults(vector_store=vector_store)
     return VectorStoreIndex(
-        nodes, storage_context=storage_context, show_progress=True, num_workers=4
+        nodes,
+        storage_context=storage_context,
+        show_progress=True,
     )
 
 

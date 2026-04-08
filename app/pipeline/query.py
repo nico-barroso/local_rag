@@ -47,8 +47,8 @@ def build_chat_history(messages: list) -> list[ChatMessage]:
 def query(
     index: VectorStoreIndex,
     question: str,
+    reranker: SentenceTransformerRerank,
     top_k: int = 10,
-    top_n: int = 3,
     chat_history: list | None = None,
 ) -> StreamingAgentChatResponse:
     """
@@ -67,7 +67,7 @@ def query(
     chat_engine = index.as_chat_engine(
         chat_mode=ChatMode.CONDENSE_PLUS_CONTEXT,
         similarity_top_k=top_k,
-        node_postprocessors=[reranker(top_n)],
+        node_postprocessors=[reranker],
         response_mode="compact",
         streaming=True,
         text_qa_template=qa_prompt,

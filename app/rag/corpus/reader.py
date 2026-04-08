@@ -11,8 +11,6 @@ def reader(input_dir: str = DOC_FOLDER_URL, **kwargs) -> list[Document]:
 
     Notes:
         kwargs are accepted as long as don't conflicts with LlamaIndex SimpleDirectoryIndex"""
-    docs = SimpleDirectoryReader(input_dir, recursive=True, **kwargs)
-def dir_corpus_reader(input_dir=ROOT_URL, **kwargs) -> list[Document]:
     docs = SimpleDirectoryReader(
         input_dir,
         recursive=False,

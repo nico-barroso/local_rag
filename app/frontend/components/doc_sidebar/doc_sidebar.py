@@ -30,16 +30,19 @@ def doc_sidebar():
             st.subheader("Documentos activos")
 
         if uploaded:
-            if not os.path.exists("./docs"):
-                os.makedirs("./docs", exist_ok=True)
+            new_files = [f for f in uploaded if not os.path.exists(f"./docs/{f.name}")]
 
-            for file in uploaded:
-                try:
-                    with open(f"./docs/{file.name}", "wb") as out:
-                        out.write(file.read())
-                    st.success(f"{file.name} añadido")
-                except Exception as e:
-                    st.error(f"Error al guardar {file.name}: {str(e)}")
+            if new_files:
+                if not os.path.exists("./docs"):
+                    os.makedirs("./docs", exist_ok=True)
+
+                for file in new_files:
+                    try:
+                        with open(f"./docs/{file.name}", "wb") as out:
+                            out.write(file.getbuffer())
+                    except Exception as e:
+                        st.error(f"Error al guardar {file.name}: {str(e)}")
+                st.rerun()
 
         if not os.path.exists("./docs"):
             st.html("")
