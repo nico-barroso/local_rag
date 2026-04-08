@@ -1,8 +1,8 @@
-import time
 from pathlib import Path
 
 import streamlit as st
 from constants import VECTOR_STORE_PATH
+from frontend.components.loader.loader import loader
 from frontend.run_chat import run_chat
 from pipeline.indexer import build_index, load_index
 from pipeline.query import reranker as build_reranker
@@ -12,7 +12,6 @@ STORE_PATH = Path(VECTOR_STORE_PATH)
 
 
 def _load_or_build_index():
-    """Initializes embeddings and manages index loading/creation."""
     initialize_embedding()
 
     if (STORE_PATH / "chroma.sqlite3").exists():
@@ -27,67 +26,39 @@ def _load_or_build_index():
 
 @st.cache_resource
 def get_index():
-    """Cached accessor for the search index."""
     return _load_or_build_index()
 
 
 @st.cache_resource
 def get_reranker():
-    """Cached accessor for the Cross-Encoder reranker."""
     return build_reranker()
 
 
 def main():
+    st.set_page_config(
+        page_title="Kalima", page_icon="☁️", initial_sidebar_state="collapsed"
+    )
 
     if "initialized" not in st.session_state:
-        st.markdown(
-            """
-            <style>
-            .loading-container {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                height: 80vh;
-                gap: 20px;
-            }
-            .loading-spinner {
-                width: 50px;
-                height: 50px;
-                border: 4px solid #e0e0e0;
-                border-top: 4px solid #4A90D9;
-                border-radius: 50%;
-                animation: spin 1s linear infinite;
-            }
-            @keyframes spin {
-                0% { transform: rotate(0deg); }
-                100% { transform: rotate(360deg); }
-            }
-            .loading-text {
-                font-size: 18px;
-                color: #666;
-                font-family: sans-serif;
-            }
-            </style>
-            <div class="loading-container">
-                <div class="loading-spinner"></div>
-                <div class="loading-text">Cargando sistema RAG...</div>
-            </div>
-        """,
-            unsafe_allow_html=True,
-        )
+        loader()
 
         with st.spinner("Cargando índice..."):
             index = get_index()
-        with st.spinner("Inicializando reranker..."):
+
+        with st.spinner("Inicializando módulos..."):
             reranker = get_reranker()
 
         st.session_state.index = index
         st.session_state.reranker = reranker
         st.session_state.initialized = True
+
         st.rerun()
 
-    run_chat(st.session_state.index, st.session_state.reranker)
+    current_index = st.session_state.get("index")
+    current_reranker = st.session_state.get("reranker")
+
+    if current_index and current_reranker:
+        run_chat(current_index, current_reranker)
 
 
 if __name__ == "__main__":

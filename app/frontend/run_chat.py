@@ -34,13 +34,6 @@ def run_chat(index: SessionStateProxy, reranker: SessionStateProxy):
     with open(os.path.join(BASE_DIR, "assets/Cloud.svg")) as f:
         cloud_svg = f.read()
 
-    st.set_page_config(
-        initial_sidebar_state="collapsed",
-        menu_items=None,
-        page_title="Kalima",
-        page_icon="☁️",
-    )
-
     # --- Global Styles Injection ---
     DYNAMIC_STYLES = f"""
     <style>
