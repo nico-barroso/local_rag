@@ -8,7 +8,8 @@ from frontend.components.model_selector.model_selector import model_selector
 from frontend.utils.utils import font_to_base64
 from rag.corpus.watcher import start_watcher
 
-def run_chat(index):
+
+def run_chat(index, reranker):
     st.set_page_config(initial_sidebar_state="collapsed", menu_items=None)
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     zodiak = font_to_base64(os.path.join(BASE_DIR, "assets/Zodiak-Bold.otf"))
@@ -88,17 +89,19 @@ font-size:18px !important;
     if "messages" not in st.session_state:
         st.session_state.messages = []
     if "index" not in st.session_state:
-        with st.spinner("Loading index..."):
-            st.session_state.index = index
+        st.session_state.index = index
+    if "reranker" not in st.session_state:
+        st.session_state.reranker = reranker
     if "watcher_started" not in st.session_state:
-        st.session_state.watcher_started = True
         t = threading.Thread(
             target=start_watcher,
-            args=(st.session_state.index,),
+            args=(st.session_state.index,),  # Usar el del session_state
             kwargs={"path": "./docs"},
             daemon=True,
         )
         t.start()
+        st.session_state.watcher_started = True
+
     if st.session_state.sidebar:
         doc_sidebar()
         st.markdown(

@@ -8,10 +8,9 @@
     height: 100%;
 }
 .uploader-container {
-    padding: 1rem;
+    padding: 2rem;
 }
 [data-testid="stSidebar"] [data-testid="stFileUploaderDropzone"] {
-    border-radius: 20px !important;
     background-color: #1f1f1e !important;
 }
 .st-key-uploader {

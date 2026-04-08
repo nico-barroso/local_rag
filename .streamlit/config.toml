@@ -4,3 +4,11 @@ backgroundColor = "#262624"
 secondaryBackgroundColor = "#3b3b38"
 textColor = "#ECECEC"
 font = "sans serif"
+
+[server]
+fileWatcherType = "none"
+runOnSave = false # Evita que recargue al guardar archivos
+extractPhotos = false
+
+[browser]
+gatherUsageStats = false
