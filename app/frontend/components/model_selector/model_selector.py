@@ -1,4 +1,5 @@
 import streamlit as st
+from pipeline.model_checker import is_model_running, missing_models_dialog
 from rag.embeddings.initialize_embedding import llm_model
 
 MODELS = {
@@ -24,6 +25,9 @@ def model_selector():
             list(MODELS.keys()),
             key="model",
         )
+        if model == "gemma3:12b" and not is_model_running("gemma3:12b"):
+            missing_models_dialog(["gemma3:12b"])
+
         st.selectbox(
             "Fragmentos a consultar",
             ["5", "10", "20"],

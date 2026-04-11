@@ -5,6 +5,7 @@ from constants import VECTOR_STORE_PATH
 from frontend.components.loader.loader import loader
 from frontend.run_chat import run_chat
 from pipeline.indexer import build_index, load_index
+from pipeline.model_checker import get_missing_models, missing_models_dialog
 from pipeline.query import reranker as build_reranker
 from rag.embeddings.initialize_embedding import initialize_embedding
 
@@ -38,6 +39,10 @@ def main():
     st.set_page_config(
         page_title="Kalima", page_icon="☁️", initial_sidebar_state="collapsed"
     )
+
+    model_missing = get_missing_models()
+    if model_missing:
+        missing_models_dialog(model_missing)
 
     if "initialized" not in st.session_state:
         loader()
