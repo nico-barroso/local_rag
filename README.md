@@ -93,13 +93,15 @@ The fastest way — no build needed. Use the pre-built image from GitHub Contain
 # docker-compose.yml
 services:
   app:
-    image: ghcr.io/nico-barroso/kalima:latest
     container_name: kalima
+    image: ghcr.io/nico-barroso/kalima:latest
     ports:
       - "8501:8501"
     environment:
       - OLLAMA_URL=http://host.docker.internal:11434
       - PYTHONUNBUFFERED=1
+      - TRANSFORMERS_VERBOSITY=error
+      - TOKENIZERS_PARALLELISM=false
     volumes:
       - ./docs:/app/docs
       - ./chroma_db:/app/chroma_db
